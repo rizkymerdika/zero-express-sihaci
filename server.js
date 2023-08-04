@@ -28,6 +28,8 @@ const travelRoutes = require('./src/routes/travels');
 const wisataRoutes = require('./src/routes/wisatas');
 const laporanRoutes = require('./src/routes/laporans');
 const akomodasiRoutes = require('./src/routes/akomodasis');
+const pengunjungRoutes = require('./src/routes/pengunjung');
+const searchRoutes = require('./src/routes/searchs');
 
 // Set Routes+
 app.use('/api/v1/user', userRoutes);
@@ -39,6 +41,8 @@ app.use('/api/v1/travel', travelRoutes);
 app.use('/api/v1/wisata', wisataRoutes);
 app.use('/api/v1/laporan', laporanRoutes);
 app.use('/api/v1/akomodasi', akomodasiRoutes);
+app.use('/api/v1/pengunjung', pengunjungRoutes);
+app.use('/api/v1/search', searchRoutes);
 
 // Route API
 app.get('/', (req, res) => {

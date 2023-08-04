@@ -1,11 +1,17 @@
 const connection = require('../config/database');
 
 const getAllKuliners = (body) => {
-	if(body.limit == 0){
+	if(body.limit == 0 && body.category == 0){
 		const query = `SELECT * FROM kuliners`;
 		return connection.queryPromise(query);
-	} else {
+	} else if(body.limit != 0 && body.category == 0) {
 		const query = `SELECT * FROM kuliners LIMIT ${body.limit} OFFSET ${body.offset}`;
+		return connection.queryPromise(query);
+	} else if(body.limit == 0 && body.category != 0) {
+		const query = `SELECT * FROM kuliners WHERE kategori_kuliner = '${body.category}'`;
+		return connection.queryPromise(query);
+	} else {
+		const query = `SELECT * FROM kuliners WHERE kategori_kuliner = '${body.category}' LIMIT ${body.limit} OFFSET ${body.offset}`;
 		return connection.queryPromise(query);
 	}
 };
@@ -13,9 +19,9 @@ const getAllKuliners = (body) => {
 const storeKuliners = (body) => {
 	const query = `
 					INSERT INTO kuliners 
-						(id_kuliner, nama_kuliner, alamat_kuliner, banner_kuliner, image_kuliner, deskripsi_kuliner, link_gmaps, link_instagram, link_shopee, link_tokopedia) 
+						(id_kuliner, nama_kuliner, kategori_kuliner, alamat_kuliner, banner_kuliner, image_kuliner, deskripsi_kuliner, link_gmaps, link_instagram, link_shopee, link_tokopedia) 
 					VALUES 
-						(NULL, '${body.nama_kuliner}', '${body.alamat_kuliner}', '${body.banner_kuliner}', '${body.image_kuliner}', '${body.deskripsi_kuliner}', '${body.link_gmaps}', '${body.link_instagram}', '${body.link_shopee}', '${body.link_tokopedia}');
+						(NULL, '${body.nama_kuliner}', '${body.kategori_kuliner}', '${body.alamat_kuliner}', '${body.banner_kuliner}', '${body.image_kuliner}', '${body.deskripsi_kuliner}', '${body.link_gmaps}', '${body.link_instagram}', '${body.link_shopee}', '${body.link_tokopedia}');
 				`;
 	return connection.queryPromise(query);
 };
@@ -31,6 +37,7 @@ const updateKuliners = (body) => {
 						kuliners 
 					SET 
 						nama_kuliner = '${body.nama_kuliner}', 
+						kategori_kuliner = '${body.kategori_kuliner}',
 						alamat_kuliner = '${body.alamat_kuliner}', 
 						banner_kuliner = '${body.banner_kuliner}', 
 						image_kuliner = '${body.image_kuliner}', 

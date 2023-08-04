@@ -31,7 +31,7 @@ const updateHotels = (body) => {
 
 const deleteHotels = (id) => {
 	const query = `
-					DELETE FROM users WHERE users.id_hotel = '${id}'
+					DELETE FROM users WHERE id_user = '${id}'
 				`;
 	return connection.queryPromise(query);
 };

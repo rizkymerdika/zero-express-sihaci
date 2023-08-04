@@ -43,7 +43,7 @@ const updateTravels = (body) => {
 						link_website = '${body.link_website}',
 						link_instagram = '${body.link_instagram}',
 						link_facebook = '${body.link_facebook}',
-						link_twitter = '${body.link_twitter}',
+						link_twitter = '${body.link_twitter}'
 					WHERE 
 						id_travel = '${body.id_travel}'
 				`;

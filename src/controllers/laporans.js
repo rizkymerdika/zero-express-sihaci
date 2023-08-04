@@ -52,10 +52,61 @@ const getlaporanById = (req, res) => {
     });
 };
 
+const getlaporanByHotel = (req, res) => {
+	const { id } = req.params;
+
+	laporansModels.getLaporansByHotel(id)
+    .then(modelsData => {
+		res.status(200).json({
+			status: 200,
+			message: "Get data laporans by id hotel success",
+			data: modelsData
+		});
+    })
+    .catch(error => {
+		console.error('Error executing MySQL query:', error);
+		res.status(500).json({
+			status: 500,
+			message: 'Internal server error',
+			error: error
+		});
+    });
+};
+
+const getlaporanByAkomodasi = (req, res) => {
+	const { id } = req.params;
+
+	const bulan = req.query.bulan || 0;
+	const tahun = parseInt(req.query.tahun) || 0;
+
+	const data = {id, bulan, tahun}
+
+	laporansModels.getLaporansByAkomodasi(data)
+    .then(modelsData => {
+		res.status(200).json({
+			status: 200,
+			message: "Get data laporans by id akomodasi success",
+			data: modelsData
+		});
+    })
+    .catch(error => {
+		console.error('Error executing MySQL query:', error);
+		res.status(500).json({
+			status: 500,
+			message: 'Internal server error',
+			error: error
+		});
+    });
+};
+
+
 const createNewlaporans = (req, res) => {
   	const data = {
   		id_hotel: req.body.id_hotel,
-		tanggal_laporan: req.body.tanggal_laporan,
+		id_akomodasi: req.body.id_akomodasi,
+		bulan: req.body.bulan,
+		tahun: req.body.tahun,
+		fasilitas: req.body.fasilitas,
 		klasifikasi_hotel: req.body.klasifikasi_hotel,
 		jumlah_kamar_dimiliki: req.body.jumlah_kamar_dimiliki,
 		jumlah_kamar_terjual: req.body.jumlah_kamar_terjual,
@@ -95,7 +146,10 @@ const updatelaporans = (req, res) => {
   	const data = {
   		id_laporan: id,
   		id_hotel: req.body.id_hotel,
-		tanggal_laporan: req.body.tanggal_laporan,
+		id_akomodasi: req.body.id_akomodasi,
+		bulan: req.body.bulan,
+		tahun: req.body.tahun,
+		fasilitas: req.body.fasilitas,
 		klasifikasi_hotel: req.body.klasifikasi_hotel,
 		jumlah_kamar_dimiliki: req.body.jumlah_kamar_dimiliki,
 		jumlah_kamar_terjual: req.body.jumlah_kamar_terjual,
@@ -152,4 +206,4 @@ const deletelaporans = (req, res) => {
     });
 };
 
-module.exports = { getAlllaporans, getlaporanById, createNewlaporans, updatelaporans, deletelaporans };
+module.exports = { getAlllaporans, getlaporanById, getlaporanByHotel, getlaporanByAkomodasi, createNewlaporans, updatelaporans, deletelaporans };

@@ -11,8 +11,9 @@ router.use(bodyParser.json());
 const getAllkuliners = (req, res) => {
 	const limit = parseInt(req.query.limit) || 0;
 	const page = parseInt(req.query.page) || 1;
+	const category = req.query.category || 0;
 	const offset = (page - 1) * limit;
-	const data = {limit, offset}
+	const data = {limit, offset, category}
 	kulinersModels.getAllKuliners(data)
     .then(modelsData => {
 		res.status(200).json({
@@ -57,6 +58,7 @@ const createNewkuliners = (req, res) => {
 
   	const data = {
   		nama_kuliner: req.body.nama_kuliner,
+  		kategori_kuliner: req.body.kategori_kuliner,
 		alamat_kuliner: req.body.alamat_kuliner,
 		banner_kuliner: bannerName,
 		image_kuliner: imageName,
@@ -142,6 +144,7 @@ const updatekuliners = (req, res) => {
 	  	const data = {
 	  		id_kuliner: id,
 	  		nama_kuliner: req.body.nama_kuliner,
+	  		kategori_kuliner: req.body.kategori_kuliner,
 			alamat_kuliner: req.body.alamat_kuliner,
 			banner_kuliner: bannerName,
 			image_kuliner: imageName,

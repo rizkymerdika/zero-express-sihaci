@@ -11,8 +11,9 @@ router.use(bodyParser.json());
 const getAllakomodasis = (req, res) => {
 	const limit = parseInt(req.query.limit) || 0;
 	const page = parseInt(req.query.page) || 1;
+	const category = req.query.category || 0;
 	const offset = (page - 1) * limit;
-	const data = {limit, offset}
+	const data = {limit, offset, category}
 	akomodasisModels.getAllAkomodasis(data)
     .then(modelsData => {
 		res.status(200).json({
@@ -77,7 +78,6 @@ const createNewakomodasis = (req, res) => {
     });
 
   	const data = {
-  		id_hotel: req.body.id_hotel,
 		nama_akomodasi: req.body.nama_akomodasi,
 		kategori_hotel: req.body.kategori_hotel,
 		harga_terendah: req.body.harga_terendah,
@@ -148,7 +148,6 @@ const updateakomodasis = (req, res) => {
 
 	  	const data = {
 	  		id_akomodasi: id,
-	  		id_hotel: req.body.id_hotel,
 			nama_akomodasi: req.body.nama_akomodasi,
 			kategori_hotel: req.body.kategori_hotel,
 			harga_terendah: req.body.harga_terendah,
